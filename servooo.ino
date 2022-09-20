@@ -9,8 +9,6 @@
 
 #define IR_RECEIVE 9
 
-#define ROTARY_MAX_STOP 24
-
 #define BUTTON_1 0x45
 #define BUTTON_2 0x46
 #define BUTTON_3 0x47
@@ -29,10 +27,44 @@
 #define BUTTON_DOWN 0x52
 #define BUTTON_OK 0x1C
 
+#define ROTARY_MAX_STOP 24
+#define BOBBIN_MAX_ROTATIONS 3
+
+#define POSITION_MAX (BOBBIN_MAX_ROTATIONS * ROTARY_MAX_STOP)
+#define POSITION_MIN 0
 
 uint8_t rotaryCounter = 0;
-int currentStateCLK;
-int lastStateCLK;
+int rotaryData = 0;
+int currentStateCLK = 0;
+int lastStateCLK = 0;
+
+/**
+   Current running program
+*/
+uint16_t currentCommand = BUTTON_POUND;
+
+/**
+   Absolute value based on the amount of measurements per rotation
+   POSITION_MIN <= currentPosition <= POSITION_MAX
+*/
+float currentPosition = POSITION_MIN;
+
+/**
+   The motor will always aim to reach this target
+*/
+float currentPositionTarget = POSITION_MIN;
+
+/**
+   True if the motor is going upwards.
+*/
+bool currentlyGoingUp = false;
+
+/**
+   True if currentPosition == currentPositionTarget.
+   Recalculated at the start of every loop iteration.
+   Changes will take effect in the next loop.
+*/
+bool isAtTarget = false;
 
 void setup() {
   Serial.begin(9600);
@@ -50,84 +82,106 @@ void setup() {
   lastStateCLK = digitalRead(ROTARY_CLK);
 }
 
-void updateRotaryInfo(uint8_t &counter) {
+int updateRotaryInfo() {
   currentStateCLK = digitalRead(ROTARY_CLK);
+  rotaryData = digitalRead(ROTARY_DT);
 
   if (currentStateCLK == lastStateCLK || !shouldHandleRotary()) {
     lastStateCLK = currentStateCLK;
-    return;
-  }
-
-  if (rotaryCounter == ROTARY_MAX_STOP) {
-    counter++;
-
-    rotaryCounter = 0;
-  } else {
-    rotaryCounter ++;
+    return 0;
   }
 
   lastStateCLK = currentStateCLK;
+
+  if (rotaryData != currentStateCLK) {
+    rotaryCounter--;
+
+    if (rotaryCounter < 0) {
+      rotaryCounter = ROTARY_MAX_STOP;
+    }
+
+    return -1;
+  }
+
+
+  rotaryCounter++;
+
+  if (rotaryCounter > ROTARY_MAX_STOP) {
+    rotaryCounter = 0;
+  }
+
+  return +1;
 }
 
 bool shouldHandleRotary() {
   return currentStateCLK == 1;
 }
 
-void motorRoll(uint8_t rotations, char in1, char in2) {
-  uint8_t rotation = 0;
-  rotaryCounter = 0;
-
-  do {
-    digitalWrite(MOTOR_A_IN1, in1);
-    digitalWrite(MOTOR_A_IN2, in2);
-
-    updateRotaryInfo(rotation);
-
-    delay(1);
-  } while (rotation < rotations);
+void motorRoll(char in1, char in2) {
+  digitalWrite(MOTOR_A_IN1, in1);
+  digitalWrite(MOTOR_A_IN2, in2);
 }
 
-void motorRollDown(uint8_t rotations) {
-  motorRoll(rotations, HIGH, LOW);
+void motorRollDown() {
+  motorRoll(HIGH, LOW);
 }
 
-void motorRollUp(uint8_t rotations) {
-  motorRoll(rotations, LOW, HIGH);
+void motorRollUp() {
+  motorRoll(LOW, HIGH);
 }
 
-void motorStop(uint16_t duration) {
+void motorStop() {
   digitalWrite(MOTOR_A_IN1, LOW);
   digitalWrite(MOTOR_A_IN2, LOW);
+}
 
-  if (duration > 0) {
-    delay(duration);
+void moveMotor() {
+  if (isAtTarget) {
+    motorStop();
+    return;
   }
+
+  if (currentlyGoingUp) {
+    motorRollUp();
+    return;
+  }
+
+  motorRollDown();
 }
 
 void loop() {
-
-  //  digitalWrite(MOTOR_A_IN1, HIGH);
-  //  digitalWrite(MOTOR_A_IN2, LOW);
-  //  delay(300);
-  //
-  //  digitalWrite(MOTOR_A_IN1, LOW);
-  //  digitalWrite(MOTOR_A_IN2, HIGH);
-  //  delay(300);
-  //
-  //  digitalWrite(MOTOR_A_IN1, LOW);
-  //  digitalWrite(MOTOR_A_IN2, LOW);
-  //  delay(300);
-
-
   if (IrReceiver.decode()) {
-    Serial.println(IrReceiver.decodedIRData.decodedRawData, HEX);
-    IrReceiver.printIRResultShort(&Serial);
-
+    currentCommand = IrReceiver.decodedIRData.command;
     IrReceiver.resume();
   }
 
-  //  motorRollUp(3);
-  //  motorStop(1000);
-  //  motorRollDown(3);
-  //  motorStop(1000);
+  currentPosition += updateRotaryInfo();
+  isAtTarget = currentPosition != currentPositionTarget;
+
+  switch (currentCommand) {
+
+    case BUTTON_POUND:
+      isAtTarget = true;
+      currentlyGoingUp = true;
+      //      currentPositionTarget = POSITION_MIN;
+      //      currentlyGoingUp = false;
+      break;
+
+    case BUTTON_OK:
+      isAtTarget = false;
+      currentlyGoingUp = true;
+      //      if (isAtTarget) {
+      //        currentlyGoingUp = !currentlyGoingUp;
+      //      }
+      //
+      //      currentPositionTarget = currentlyGoingUp ? POSITION_MAX : POSITION_MIN;
+      break;
+    case BUTTON_ASTERISK:
+      isAtTarget = false;
+      currentlyGoingUp = false;
+      break;
+  }
+
+  moveMotor();
+  delay(1);
 }
