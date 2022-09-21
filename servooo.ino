@@ -27,14 +27,18 @@
 #define BUTTON_RIGHT 0x5A
 #define BUTTON_DOWN 0x52
 #define BUTTON_OK 0x1C
+#define NOOP 0x00
 
-#define ROTARY_MAX_STOP 24
+#define ROTARY_POINTS_IN 14
+#define ROTARY_GEAR_RATIO 150
+#define ROTARY_MAX_STOP (ROTARY_POINTS_IN * ROTARY_GEAR_RATIO)
+
 #define BOBBIN_MAX_ROTATIONS 3
 
 #define POSITION_MAX (BOBBIN_MAX_ROTATIONS * ROTARY_MAX_STOP)
 #define POSITION_MIN 0
 
-#define POSITION_DISTANCE (POSITION_MAX / 11) // buttons asterisk, 1-9, pound
+#define POSITION_DISTANCE (POSITION_MAX / 10) // buttons asterisk, 1-9, pound = 11 points, indexed 0-10
 
 /**
  * Current position of rotary encoder
@@ -60,12 +64,7 @@ uint8_t lastRotaryOutA = 0;
 /**
  * Current running program
  */
-uint16_t currentCommand = BUTTON_POUND;
-
-/**
- * Last running program
- */
-uint16_t lastCommand = BUTTON_POUND;
+uint16_t currentCommand = NOOP;
 
 /**
  * Absolute value based on the amount of measurements per rotation
@@ -106,7 +105,7 @@ void setup () {
   lastRotaryOutA = digitalRead(ROTARY_A);
 }
 
-bool updateRotaryOutB () {
+bool updateRotaryData () {
   currentRotaryOutA = digitalRead(ROTARY_A);
   rotaryOutB = digitalRead(ROTARY_B);
 
@@ -119,7 +118,7 @@ bool updateRotaryOutB () {
 }
 
 char getRotaryDelta () {
-  if (!updateRotaryOutB()) {
+  if (!updateRotaryData()) {
     return 0;
   }
 
@@ -186,16 +185,44 @@ void moveMotor () {
   motorRollDown();
 }
 
+bool isKnownCommand (uint16_t command) {
+  switch (command) {
+    case BUTTON_0:
+    case BUTTON_1:
+    case BUTTON_2:
+    case BUTTON_3:
+    case BUTTON_4:
+    case BUTTON_5:
+    case BUTTON_6:
+    case BUTTON_7:
+    case BUTTON_8:
+    case BUTTON_9:
+    case BUTTON_ASTERISK:
+    case BUTTON_POUND:
+    case BUTTON_OK:
+    case BUTTON_UP:
+    case BUTTON_RIGHT:
+    case BUTTON_DOWN:
+    case BUTTON_LEFT:
+      return true;
+    default:
+      return false;
+  }
+}
+
 void updateIRData () {
   if (IrReceiver.decode()) {
-    currentCommand = IrReceiver.decodedIRData.command;
+    if (isKnownCommand(IrReceiver.decodedIRData.command)) {
+      currentCommand = IrReceiver.decodedIRData.command;
+    }
+
     IrReceiver.resume();
   }
 }
 
 void updateValues () {
   currentPosition += getRotaryDelta();
-  isAtTarget = currentPosition != currentPositionTarget;
+  isAtTarget = currentPosition == currentPositionTarget;
 }
 
 void programGoToTop () {
@@ -227,24 +254,30 @@ void goToPosition (uint8_t position) {
 }
 
 void decrementPosition (uint8_t factor) {
+  if(!isAtTarget){
+    return;
+  }
+
   currentPositionTarget = max(POSITION_MIN, currentPosition - (factor * POSITION_DISTANCE));
   currentlyGoingUp = false;
 }
 
 void incrementPosition (uint8_t factor) {
+  if(!isAtTarget){
+    return;
+  }
+
   currentPositionTarget = min(POSITION_MAX, currentPosition + (factor * POSITION_DISTANCE));
   currentlyGoingUp = true;
 }
 
 void chooseProgram () {
-  bool commandChanged = lastCommand != currentCommand;
-
   switch (currentCommand) {
     case BUTTON_POUND:
-      programGoToBottom();
+      programGoToTop();
       break;
     case BUTTON_ASTERISK:
-      programGoToTop();
+      programGoToBottom();
       break;
     case BUTTON_OK:
       cycleTopToBottom();
@@ -280,34 +313,50 @@ void chooseProgram () {
       goToPosition(9);
       break;
     case BUTTON_LEFT:
-      if (commandChanged) {
-        decrementPosition(1);
-      };
+      decrementPosition(1);
+      currentCommand = NOOP;
       break;
     case BUTTON_DOWN:
-      if (commandChanged) {
-        decrementPosition(2);
-      };
+      decrementPosition(2);
+      currentCommand = NOOP;
       break;
     case BUTTON_RIGHT:
-      if (commandChanged) {
-        incrementPosition(1);
-      };
+      incrementPosition(1);
+      currentCommand = NOOP;
       break;
     case BUTTON_UP:
-      if (commandChanged) {
-        incrementPosition(2);
-      };
+      incrementPosition(2);
+      currentCommand = NOOP;
+    case NOOP:
+      // do nothing
       break;
   }
-
-  lastCommand = currentCommand;
 }
 
 void loop () {
   updateIRData();
   updateValues();
   chooseProgram();
+
   moveMotor();
+
+  Serial.print("currentCommand: ");
+  Serial.print(currentCommand, HEX);
+  Serial.println("");
+  Serial.print("current/target/max: ");
+  Serial.print(currentPosition, DEC);
+  Serial.print("/");
+  Serial.print(currentPositionTarget, DEC);
+  Serial.print("/");
+  Serial.print(POSITION_MAX, DEC);
+  Serial.println("");
+
+  Serial.print("isAtTarget: ");
+  Serial.print(isAtTarget ? "true" : "false");
+  Serial.println("");
+  Serial.print("currentlyGoingUp: ");
+  Serial.print(currentlyGoingUp ? "true" : "false");
+  Serial.println("");
+
   delay(1);
 }
