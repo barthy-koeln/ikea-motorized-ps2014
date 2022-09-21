@@ -6,8 +6,7 @@
             <setting alwaysvectorfont="no"/>
             <setting verticaltext="up"/>
         </settings>
-        <grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="no" altdistance="0.01"
-              altunitdist="inch" altunit="inch"/>
+        <grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="no" altdistance="0.01" altunitdist="inch" altunit="inch"/>
         <layers>
             <layer number="1" name="Top" color="4" fill="1" visible="no" active="no"/>
             <layer number="16" name="Bottom" color="1" fill="1" visible="no" active="no"/>
@@ -53,7 +52,7 @@
             <layer number="57" name="tCAD" color="7" fill="1" visible="no" active="no"/>
             <layer number="59" name="tCarbon" color="7" fill="1" visible="no" active="no"/>
             <layer number="60" name="bCarbon" color="7" fill="1" visible="no" active="no"/>
-            <layer number="88" name="SimResults" color="9" fill="1" visible="yes" active="yes"/>
+            <layer number="88" name="SimResults" color="9" fill="1" visible="no" active="yes"/>
             <layer number="89" name="SimProbes" color="9" fill="1" visible="yes" active="yes"/>
             <layer number="90" name="Modules" color="5" fill="1" visible="yes" active="yes"/>
             <layer number="91" name="Nets" color="2" fill="1" visible="yes" active="yes"/>
@@ -171,11 +170,9 @@
                         </symbol>
                     </symbols>
                     <devicesets>
-                        <deviceset name="A4L-LOC" urn="urn:adsk.eagle:component:13926/1" prefix="FRAME" uservalue="yes"
-                                   library_version="1">
+                        <deviceset name="A4L-LOC" urn="urn:adsk.eagle:component:13926/1" prefix="FRAME" uservalue="yes" library_version="1">
                             <description>&lt;b&gt;FRAME&lt;/b&gt;&lt;p&gt;
-                                DIN A4, landscape with location and doc. field
-                            </description>
+                                DIN A4, landscape with location and doc. field</description>
                             <gates>
                                 <gate name="G$1" symbol="A4L-LOC" x="0" y="0"/>
                             </gates>
@@ -192,36 +189,22 @@
                 <library name="diy-modules">
                     <description>&lt;b&gt;DIY Modules for Arduino, Raspberry Pi, CubieBoard etc.&lt;/b&gt;
                         &lt;br&gt;&lt;br&gt;
-                        The library contains a list of symbols and footprints for popular, cheap and easy-to-use
-                        electronic modules.&lt;br&gt;
-                        The modules are intend to work with microprocessor-based platforms such as &lt;a
-                        href="http://arduino.cc"&gt;Arduino&lt;/a&gt;, &lt;a href="http://raspberrypi.org/"&gt;Raspberry
-                        Pi&lt;/a&gt;, &lt;a href="http://cubieboard.org/"&gt;CubieBoard&lt;/a&gt;, &lt;a
-                        href="http://beagleboard.org/"&gt;BeagleBone&lt;/a&gt; and many others. There are many
-                        manufacturers of the modules in the world. Almost all of them can be bought on &lt;a
-                        href="ebay.com"&gt;ebay.com&lt;/a&gt;.&lt;br&gt;
+                        The library contains a list of symbols and footprints for popular, cheap and easy-to-use electronic modules.&lt;br&gt;
+                        The modules are intend to work with microprocessor-based platforms such as &lt;a href="http://arduino.cc"&gt;Arduino&lt;/a&gt;, &lt;a href="http://raspberrypi.org/"&gt;Raspberry Pi&lt;/a&gt;, &lt;a href="http://cubieboard.org/"&gt;CubieBoard&lt;/a&gt;, &lt;a href="http://beagleboard.org/"&gt;BeagleBone&lt;/a&gt; and many others. There are many manufacturers of the modules in the world. Almost all of them can be bought on &lt;a href="ebay.com"&gt;ebay.com&lt;/a&gt;.&lt;br&gt;
                         &lt;br&gt;
-                        By using this library, you can design a PCB for devices created with usage of modules. Even if
-                        you do not need to create PCB design, you can also use the library to quickly document your work
-                        by drawing schematics of devices built by you.&lt;br&gt;
+                        By using this library, you can design a PCB for devices created with usage of modules. Even if you do not need to create PCB design, you can also use the library to quickly document your work by drawing schematics of devices built by you.&lt;br&gt;
                         &lt;br&gt;
-                        The latest version, examples, photos and much more can be found at: &lt;b&gt;&lt;a
-                        href="http://diymodules.org/eagle"&gt;diymodules.org/eagle&lt;/a&gt;&lt;/b&gt;&lt;br&gt;&lt;br&gt;
-                        Comments, suggestions and bug reports please send to: &lt;b&gt;&lt;a
-                        href="mailto:eagle@diymodules.org"&gt;eagle@diymodules.org&lt;/b&gt;&lt;br&gt;&lt;br&gt;
+                        The latest version, examples, photos and much more can be found at: &lt;b&gt;&lt;a href="http://diymodules.org/eagle"&gt;diymodules.org/eagle&lt;/a&gt;&lt;/b&gt;&lt;br&gt;&lt;br&gt;
+                        Comments, suggestions and bug reports please send to: &lt;b&gt;&lt;a href="mailto:eagle@diymodules.org"&gt;eagle@diymodules.org&lt;/b&gt;&lt;br&gt;&lt;br&gt;
                         &lt;i&gt;Version: 1.0.0 (2015-Feb-02)&lt;/i&gt;&lt;br&gt;
                         &lt;i&gt;Created by: Miroslaw Brudnowski&lt;/i&gt;&lt;br&gt;&lt;br&gt;
-                        &lt;i&gt;Released under the Creative Commons Attribution 4.0 International License: &lt;a
-                        href="http://creativecommons.org/licenses/by/4.0"&gt;http://creativecommons.org/licenses/by/4.0&lt;/a&gt;&lt;/i&gt;
+                        &lt;i&gt;Released under the Creative Commons Attribution 4.0 International License: &lt;a href="http://creativecommons.org/licenses/by/4.0"&gt;http://creativecommons.org/licenses/by/4.0&lt;/a&gt;&lt;/i&gt;
                         &lt;br&gt;&lt;br&gt;
-                        &lt;center&gt;&lt;a href="http://diymodules.org"&gt;&lt;img
-                        src="http://diymodules.org/img/diymodules-page-logo.png" alt="DIYmodules.org"&gt;&lt;/a&gt;&lt;/center&gt;
-                    </description>
+                        &lt;center&gt;&lt;a href="http://diymodules.org"&gt;&lt;img src="http://diymodules.org/img/diymodules-page-logo.png" alt="DIYmodules.org"&gt;&lt;/a&gt;&lt;/center&gt;</description>
                     <packages>
                         <package name="ARDUINO-NANO-3.0#ISP">
                             <description>&lt;b&gt;Arduino Nano 3.0&lt;/b&gt;&lt;br&gt;
-                                Footprint with ISP pads
-                            </description>
+                                Footprint with ISP pads</description>
                             <pad name="J1.1" x="17.78" y="7.62" drill="1" shape="square"/>
                             <pad name="J1.2" x="15.24" y="7.62" drill="1"/>
                             <pad name="J1.3" x="12.7" y="7.62" drill="1"/>
@@ -632,12 +615,9 @@
                             <pad name="FLT" x="6.35" y="-10.16" drill="0.8"/>
                             <text x="-3.81" y="-16.51" size="1.27" layer="27">&gt;VALUE</text>
                             <text x="-3.81" y="10.16" size="1.27" layer="25">&gt;NAME</text>
-                            <dimension x1="-5.1" y1="8.8" x2="-5.1" y2="-11.52" x3="-12.7" y3="-1.36" textsize="1.27"
-                                       layer="47"/>
-                            <dimension x1="7.6" y1="8.8" x2="-5.1" y2="8.8" x3="1.25" y3="13.97" textsize="1.27"
-                                       layer="47"/>
-                            <dimension x1="6.35" y1="-10.16" x2="6.35" y2="-7.62" x3="12.7" y3="-8.89" textsize="1.27"
-                                       layer="47"/>
+                            <dimension x1="-5.1" y1="8.8" x2="-5.1" y2="-11.52" x3="-12.7" y3="-1.36" textsize="1.27" layer="47"/>
+                            <dimension x1="7.6" y1="8.8" x2="-5.1" y2="8.8" x3="1.25" y3="13.97" textsize="1.27" layer="47"/>
+                            <dimension x1="6.35" y1="-10.16" x2="6.35" y2="-7.62" x3="12.7" y3="-8.89" textsize="1.27" layer="47"/>
                         </package>
                     </packages>
                     <symbols>
@@ -671,8 +651,7 @@
                     <devicesets>
                         <deviceset name="POLOLU-DRV8833" uservalue="yes">
                             <description>Created by: Deltarios
-                                DRV8833 pololu dual drive controller, PCB-ready device
-                            </description>
+                                DRV8833 pololu dual drive controller, PCB-ready device</description>
                             <gates>
                                 <gate name="G$1" symbol="POLOLU-DRV8833" x="0" y="0"/>
                             </gates>
@@ -704,73 +683,16 @@
                         </deviceset>
                     </devicesets>
                 </library>
-                <library name="supply1" urn="urn:adsk.eagle:library:371">
-                    <description>&lt;b&gt;Supply Symbols&lt;/b&gt;&lt;p&gt;
-                        GND, VCC, 0V, +5V, -5V, etc.&lt;p&gt;
-                        Please keep in mind, that these devices are necessary for the
-                        automatic wiring of the supply signals.&lt;p&gt;
-                        The pin name defined in the symbol is identical to the net which is to be wired automatically.&lt;p&gt;
-                        In this library the device names are the same as the pin names of the symbols, therefore the
-                        correct signal names appear next to the supply symbols in the schematic.&lt;p&gt;
-                        &lt;author&gt;Created by librarian@cadsoft.de&lt;/author&gt;
-                    </description>
-                    <packages>
-                    </packages>
-                    <symbols>
-                        <symbol name="+5V" urn="urn:adsk.eagle:symbol:26929/1" library_version="1">
-                            <wire x1="1.27" y1="-1.905" x2="0" y2="0" width="0.254" layer="94"/>
-                            <wire x1="0" y1="0" x2="-1.27" y2="-1.905" width="0.254" layer="94"/>
-                            <text x="-2.54" y="-5.08" size="1.778" layer="96" rot="R90">&gt;VALUE</text>
-                            <pin name="+5V" x="0" y="-2.54" visible="off" length="short" direction="sup" rot="R90"/>
-                        </symbol>
-                        <symbol name="GNDA" urn="urn:adsk.eagle:symbol:26926/1" library_version="1">
-                            <wire x1="-1.905" y1="0" x2="1.905" y2="0" width="0.254" layer="94"/>
-                            <wire x1="-1.0922" y1="-0.508" x2="1.0922" y2="-0.508" width="0.254" layer="94"/>
-                            <text x="-2.54" y="-2.54" size="1.778" layer="96" rot="R90">&gt;VALUE</text>
-                            <pin name="GNDA" x="0" y="2.54" visible="off" length="short" direction="sup" rot="R270"/>
-                        </symbol>
-                    </symbols>
-                    <devicesets>
-                        <deviceset name="+5V" urn="urn:adsk.eagle:component:26963/1" prefix="P+" library_version="1">
-                            <description>&lt;b&gt;SUPPLY SYMBOL&lt;/b&gt;</description>
-                            <gates>
-                                <gate name="1" symbol="+5V" x="0" y="0"/>
-                            </gates>
-                            <devices>
-                                <device name="">
-                                    <technologies>
-                                        <technology name=""/>
-                                    </technologies>
-                                </device>
-                            </devices>
-                        </deviceset>
-                        <deviceset name="GNDA" urn="urn:adsk.eagle:component:26955/1" prefix="GND" library_version="1">
-                            <description>&lt;b&gt;SUPPLY SYMBOL&lt;/b&gt;</description>
-                            <gates>
-                                <gate name="1" symbol="GNDA" x="0" y="0"/>
-                            </gates>
-                            <devices>
-                                <device name="">
-                                    <technologies>
-                                        <technology name=""/>
-                                    </technologies>
-                                </device>
-                            </devices>
-                        </deviceset>
-                    </devicesets>
-                </library>
                 <library name="con-jack" urn="urn:adsk.eagle:library:154">
                     <description>&lt;b&gt;Jacks&lt;/b&gt;&lt;p&gt;
                         Power Connectors&lt;br&gt;
                         Phone Connectors&lt;br&gt;
                         Cinch Connectors&lt;br&gt;
-                        &lt;author&gt;Created by librarian@cadsoft.de&lt;/author&gt;
-                    </description>
+                        &lt;author&gt;Created by librarian@cadsoft.de&lt;/author&gt;</description>
                     <packages>
                         <package name="DCJ0303" urn="urn:adsk.eagle:footprint:7490/1" library_version="2">
                             <description>&lt;b&gt;DC POWER JACK&lt;/b&gt; Pad shape changed to LONG 2007.07.26&lt;p&gt;
-                                Source: DCJ0303.pdf
-                            </description>
+                                Source: DCJ0303.pdf</description>
                             <wire x1="1.65" y1="2.6" x2="-1.65" y2="2.6" width="0" layer="46"/>
                             <wire x1="-1.65" y1="2.6" x2="-1.65" y2="3.6" width="0" layer="46"/>
                             <wire x1="-1.65" y1="3.6" x2="1.65" y2="3.6" width="0" layer="46"/>
@@ -807,8 +729,7 @@
                     <packages3d>
                         <package3d name="DCJ0303" urn="urn:adsk.eagle:package:7493/1" type="box" library_version="2">
                             <description>DC POWER JACK Pad shape changed to LONG 2007.07.26
-                                Source: DCJ0303.pdf
-                            </description>
+                                Source: DCJ0303.pdf</description>
                             <packageinstances>
                                 <packageinstance name="DCJ0303"/>
                             </packageinstances>
@@ -838,11 +759,9 @@
                         </symbol>
                     </symbols>
                     <devicesets>
-                        <deviceset name="DCJ0303" urn="urn:adsk.eagle:component:7497/2" prefix="J" uservalue="yes"
-                                   library_version="2">
+                        <deviceset name="DCJ0303" urn="urn:adsk.eagle:component:7497/2" prefix="J" uservalue="yes" library_version="2">
                             <description>&lt;b&gt;DC POWER JACK&lt;/b&gt;&lt;p&gt;
-                                Source: DCJ0303.pdf
-                            </description>
+                                Source: DCJ0303.pdf</description>
                             <gates>
                                 <gate name="G$1" symbol="DC-JACK-SWITCH" x="0" y="0"/>
                             </gates>
@@ -872,13 +791,11 @@
                 </library>
                 <library name="telefunken" urn="urn:adsk.eagle:library:383">
                     <description>&lt;b&gt;Telefunken Devices&lt;/b&gt;&lt;p&gt;
-                        &lt;author&gt;Created by librarian@cadsoft.de&lt;/author&gt;
-                    </description>
+                        &lt;author&gt;Created by librarian@cadsoft.de&lt;/author&gt;</description>
                     <packages>
                         <package name="TSOP17_TB1" urn="urn:adsk.eagle:footprint:27874/1" library_version="4">
                             <description>&lt;b&gt;IR Receiver Modules for Remote Control Systems&lt;/b&gt;&lt;p&gt;
-                                Source: http://www.vishay.com/docs/82042/82042.pdf
-                            </description>
+                                Source: http://www.vishay.com/docs/82042/82042.pdf</description>
                             <wire x1="-1.9" y1="4.55" x2="-3.3" y2="4.55" width="0" layer="20"/>
                             <wire x1="-3.3" y1="4.55" x2="-3.3" y2="1.95" width="0" layer="20"/>
                             <wire x1="-3.3" y1="1.95" x2="-1.9" y2="1.95" width="0" layer="20"/>
@@ -934,11 +851,9 @@
                         </package>
                     </packages>
                     <packages3d>
-                        <package3d name="TSOP17_TB1" urn="urn:adsk.eagle:package:27879/1" type="box"
-                                   library_version="4">
+                        <package3d name="TSOP17_TB1" urn="urn:adsk.eagle:package:27879/1" type="box" library_version="4">
                             <description>IR Receiver Modules for Remote Control Systems
-                                Source: http://www.vishay.com/docs/82042/82042.pdf
-                            </description>
+                                Source: http://www.vishay.com/docs/82042/82042.pdf</description>
                             <packageinstances>
                                 <packageinstance name="TSOP17_TB1"/>
                             </packageinstances>
@@ -984,11 +899,9 @@
                         </symbol>
                     </symbols>
                     <devicesets>
-                        <deviceset name="TSOP17*TB1" urn="urn:adsk.eagle:component:27883/2" prefix="IR"
-                                   library_version="4">
+                        <deviceset name="TSOP17*TB1" urn="urn:adsk.eagle:component:27883/2" prefix="IR" library_version="4">
                             <description>&lt;b&gt;TSOP17..TB1&lt;/b&gt; IR Receiver Modules for Remote Control Systems&lt;p&gt;
-                                Source: http://www.vishay.com/docs/82042/82042.pdf
-                            </description>
+                                Source: http://www.vishay.com/docs/82042/82042.pdf</description>
                             <gates>
                                 <gate name="A" symbol="TSOP17_TB1" x="0" y="0"/>
                             </gates>
@@ -1170,8 +1083,7 @@
                                 <packageinstance name="1X06"/>
                             </packageinstances>
                         </package3d>
-                        <package3d name="1X06/90" urn="urn:adsk.eagle:package:22475/2" type="model"
-                                   library_version="12">
+                        <package3d name="1X06/90" urn="urn:adsk.eagle:package:22475/2" type="model" library_version="12">
                             <description>PIN HEADER</description>
                             <packageinstances>
                                 <packageinstance name="1X06/90"/>
@@ -1186,22 +1098,16 @@
                             <wire x1="-6.35" y1="10.16" x2="-6.35" y2="-7.62" width="0.4064" layer="94"/>
                             <text x="-6.35" y="10.795" size="1.778" layer="95">&gt;NAME</text>
                             <text x="-6.35" y="-10.16" size="1.778" layer="96">&gt;VALUE</text>
-                            <pin name="1" x="-2.54" y="7.62" visible="pad" length="short" direction="pas"
-                                 function="dot"/>
-                            <pin name="2" x="-2.54" y="5.08" visible="pad" length="short" direction="pas"
-                                 function="dot"/>
-                            <pin name="3" x="-2.54" y="2.54" visible="pad" length="short" direction="pas"
-                                 function="dot"/>
+                            <pin name="1" x="-2.54" y="7.62" visible="pad" length="short" direction="pas" function="dot"/>
+                            <pin name="2" x="-2.54" y="5.08" visible="pad" length="short" direction="pas" function="dot"/>
+                            <pin name="3" x="-2.54" y="2.54" visible="pad" length="short" direction="pas" function="dot"/>
                             <pin name="4" x="-2.54" y="0" visible="pad" length="short" direction="pas" function="dot"/>
-                            <pin name="5" x="-2.54" y="-2.54" visible="pad" length="short" direction="pas"
-                                 function="dot"/>
-                            <pin name="6" x="-2.54" y="-5.08" visible="pad" length="short" direction="pas"
-                                 function="dot"/>
+                            <pin name="5" x="-2.54" y="-2.54" visible="pad" length="short" direction="pas" function="dot"/>
+                            <pin name="6" x="-2.54" y="-5.08" visible="pad" length="short" direction="pas" function="dot"/>
                         </symbol>
                     </symbols>
                     <devicesets>
-                        <deviceset name="PINHD-1X6" urn="urn:adsk.eagle:component:16494859/2" prefix="JP"
-                                   library_version="12">
+                        <deviceset name="PINHD-1X6" urn="urn:adsk.eagle:component:16494859/2" prefix="JP" library_version="12">
                             <description>&lt;b&gt;PIN HEADER&lt;/b&gt;</description>
                             <gates>
                                 <gate name="A" symbol="PINHD6" x="0" y="-2.54"/>
@@ -1299,19 +1205,12 @@
                 </module>
             </modules>
             <parts>
-                <part name="FRAME1" library="frames" library_urn="urn:adsk.eagle:library:229" deviceset="A4L-LOC"
-                      device=""/>
+                <part name="FRAME1" library="frames" library_urn="urn:adsk.eagle:library:229" deviceset="A4L-LOC" device=""/>
                 <part name="M1" library="diy-modules" deviceset="ARDUINO-NANO-3.0#ISP" device=""/>
                 <part name="DRV8833" library="Pololu_Driver_DRV8833" deviceset="POLOLU-DRV8833" device=""/>
-                <part name="P+1" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="+5V" device=""/>
-                <part name="GND1" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="GNDA"
-                      device=""/>
-                <part name="POWER" library="con-jack" library_urn="urn:adsk.eagle:library:154" deviceset="DCJ0303"
-                      device="" package3d_urn="urn:adsk.eagle:package:7493/1" value="12V / 1.5A"/>
-                <part name="IR1" library="telefunken" library_urn="urn:adsk.eagle:library:383" deviceset="TSOP17*TB1"
-                      device="" package3d_urn="urn:adsk.eagle:package:27879/1" technology="30"/>
-                <part name="N20-ENCODER" library="Connector" library_urn="urn:adsk.eagle:library:16378166"
-                      deviceset="PINHD-1X6" device="" package3d_urn="urn:adsk.eagle:package:22472/2"/>
+                <part name="POWER" library="con-jack" library_urn="urn:adsk.eagle:library:154" deviceset="DCJ0303" device="" package3d_urn="urn:adsk.eagle:package:7493/1" value="12V / 1.5A"/>
+                <part name="IR1" library="telefunken" library_urn="urn:adsk.eagle:library:383" deviceset="TSOP17*TB1" device="" package3d_urn="urn:adsk.eagle:package:27879/1" technology="30"/>
+                <part name="N20-ENCODER" library="Connector" library_urn="urn:adsk.eagle:library:16378166" deviceset="PINHD-1X6" device="" package3d_urn="urn:adsk.eagle:package:22472/2"/>
             </parts>
             <sheets>
                 <sheet>
@@ -1332,12 +1231,6 @@
                             <attribute name="NAME" x="35.56" y="68.58" size="2.54" layer="94"/>
                             <attribute name="NAME" x="63.5" y="88.9" size="2.54" layer="95"/>
                         </instance>
-                        <instance part="P+1" gate="1" x="17.78" y="109.22" smashed="yes">
-                            <attribute name="VALUE" x="15.24" y="104.14" size="1.778" layer="96" rot="R90"/>
-                        </instance>
-                        <instance part="GND1" gate="1" x="20.32" y="2.54" smashed="yes">
-                            <attribute name="VALUE" x="17.78" y="0" size="1.778" layer="96" rot="R90"/>
-                        </instance>
                         <instance part="POWER" gate="G$1" x="198.12" y="58.42" smashed="yes" rot="MR0">
                             <attribute name="NAME" x="200.66" y="62.23" size="1.778" layer="95" rot="MR0"/>
                             <attribute name="VALUE" x="200.66" y="52.07" size="1.778" layer="96" rot="MR0"/>
@@ -1348,37 +1241,19 @@
                         </instance>
                         <instance part="N20-ENCODER" gate="A" x="17.78" y="53.34" smashed="yes" rot="R180">
                             <attribute name="NAME" x="24.13" y="42.545" size="1.778" layer="95" rot="R180"/>
-                            <attribute name="VALUE" x="24.13" y="63.5" size="1.778" layer="96" rot="R180"
-                                       display="off"/>
+                            <attribute name="VALUE" x="24.13" y="63.5" size="1.778" layer="96" rot="R180" display="off"/>
                         </instance>
                     </instances>
                     <busses>
-                        <bus name="ARDUINO_VOLTAGE,DRIVER_VOLTAGE_CONTROL,DRIVER_VOLTAGE_MOTOR,ENC_VCC,IR_VOLTAGE">
-                            <segment>
-                                <wire x1="17.78" y1="109.22" x2="175.26" y2="109.22" width="0.762" layer="92"/>
-                            </segment>
-                        </bus>
-                        <bus name="ARDUINO_GROUND,DRIVER_GROUND,ENC_GND,ENCODER_GROUND,IR_GROUND,POWER_GND">
-                            <segment>
-                                <wire x1="20.32" y1="5.08" x2="175.26" y2="5.08" width="0.762" layer="92"/>
-                            </segment>
-                        </bus>
                     </busses>
                     <nets>
                         <net name="MOTOR_CONTROL_1" class="0">
                             <segment>
                                 <pinref part="M1" gate="G$1" pin="D5"/>
                                 <wire x1="114.3" y1="60.96" x2="96.52" y2="60.96" width="0.1524" layer="91"/>
-                                <wire x1="96.52" y1="60.96" x2="96.52" y2="53.34" width="0.1524" layer="91"/>
-                                <pinref part="DRV8833" gate="G$1" pin="INA1"/>
-                                <wire x1="96.52" y1="53.34" x2="86.36" y2="53.34" width="0.1524" layer="91"/>
-                            </segment>
-                        </net>
-                        <net name="MOTOR_CONTROL_2" class="0">
-                            <segment>
-                                <pinref part="M1" gate="G$1" pin="D6"/>
                                 <pinref part="DRV8833" gate="G$1" pin="INA2"/>
-                                <wire x1="114.3" y1="58.42" x2="86.36" y2="58.42" width="0.1524" layer="91"/>
+                                <wire x1="96.52" y1="60.96" x2="96.52" y2="58.42" width="0.1524" layer="91"/>
+                                <wire x1="96.52" y1="58.42" x2="86.36" y2="58.42" width="0.1524" layer="91"/>
                             </segment>
                         </net>
                         <net name="ENC_B" class="0">
@@ -1405,54 +1280,6 @@
                                 <label x="15.24" y="50.8" size="1.778" layer="95" rot="R180"/>
                             </segment>
                         </net>
-                        <net name="ARDUINO_GROUND" class="0">
-                            <segment>
-                                <pinref part="M1" gate="G$1" pin="GND.2"/>
-                                <wire x1="152.4" y1="76.2" x2="167.64" y2="76.2" width="0.1524" layer="91"/>
-                                <wire x1="167.64" y1="76.2" x2="167.64" y2="5.08" width="0.1524" layer="91"/>
-                            </segment>
-                        </net>
-                        <net name="DRIVER_GROUND" class="0">
-                            <segment>
-                                <pinref part="DRV8833" gate="G$1" pin="GND2"/>
-                                <wire x1="86.36" y1="78.74" x2="93.98" y2="78.74" width="0.1524" layer="91"/>
-                                <wire x1="93.98" y1="78.74" x2="93.98" y2="5.08" width="0.1524" layer="91"/>
-                            </segment>
-                            <segment>
-                                <pinref part="DRV8833" gate="G$1" pin="GND1"/>
-                                <wire x1="55.88" y1="78.74" x2="50.8" y2="78.74" width="0.1524" layer="91"/>
-                                <wire x1="50.8" y1="78.74" x2="50.8" y2="5.08" width="0.1524" layer="91"/>
-                            </segment>
-                        </net>
-                        <net name="DRIVER_VOLTAGE_CONTROL" class="0">
-                            <segment>
-                                <pinref part="DRV8833" gate="G$1" pin="VIN"/>
-                                <wire x1="55.88" y1="73.66" x2="48.26" y2="73.66" width="0.1524" layer="91"/>
-                                <wire x1="48.26" y1="73.66" x2="48.26" y2="109.22" width="0.1524" layer="91"/>
-                            </segment>
-                        </net>
-                        <net name="ARDUINO_VOLTAGE" class="0">
-                            <segment>
-                                <pinref part="M1" gate="G$1" pin="5V"/>
-                                <wire x1="152.4" y1="71.12" x2="160.02" y2="71.12" width="0.1524" layer="91"/>
-                                <wire x1="160.02" y1="71.12" x2="160.02" y2="109.22" width="0.1524" layer="91"/>
-                            </segment>
-                        </net>
-                        <net name="DRIVER_VOLTAGE_MOTOR" class="0">
-                            <segment>
-                                <pinref part="DRV8833" gate="G$1" pin="VMM"/>
-                                <wire x1="86.36" y1="73.66" x2="96.52" y2="73.66" width="0.1524" layer="91"/>
-                                <wire x1="96.52" y1="73.66" x2="96.52" y2="109.22" width="0.1524" layer="91"/>
-                            </segment>
-                        </net>
-                        <net name="ENC_VCC" class="0">
-                            <segment>
-                                <wire x1="33.02" y1="55.88" x2="33.02" y2="109.22" width="0.1524" layer="91"/>
-                                <pinref part="N20-ENCODER" gate="A" pin="5"/>
-                                <wire x1="33.02" y1="55.88" x2="20.32" y2="55.88" width="0.1524" layer="91"/>
-                                <label x="15.24" y="55.88" size="1.778" layer="95" rot="R180"/>
-                            </segment>
-                        </net>
                         <net name="POWER_VCC" class="0">
                             <segment>
                                 <pinref part="POWER" gate="G$1" pin="1"/>
@@ -1462,13 +1289,6 @@
                                 <wire x1="170.18" y1="60.96" x2="170.18" y2="78.74" width="0.1524" layer="91"/>
                             </segment>
                         </net>
-                        <net name="POWER_GND" class="0">
-                            <segment>
-                                <pinref part="POWER" gate="G$1" pin="3"/>
-                                <wire x1="190.5" y1="55.88" x2="170.18" y2="55.88" width="0.1524" layer="91"/>
-                                <wire x1="170.18" y1="55.88" x2="170.18" y2="5.08" width="0.1524" layer="91"/>
-                            </segment>
-                        </net>
                         <net name="IR_SIGNAL" class="0">
                             <segment>
                                 <pinref part="M1" gate="G$1" pin="D9"/>
@@ -1476,20 +1296,6 @@
                                 <wire x1="109.22" y1="50.8" x2="109.22" y2="22.86" width="0.1524" layer="91"/>
                                 <pinref part="IR1" gate="A" pin="VS"/>
                                 <wire x1="109.22" y1="22.86" x2="83.82" y2="22.86" width="0.1524" layer="91"/>
-                            </segment>
-                        </net>
-                        <net name="IR_VOLTAGE" class="0">
-                            <segment>
-                                <pinref part="IR1" gate="A" pin="VO"/>
-                                <wire x1="83.82" y1="17.78" x2="99.06" y2="17.78" width="0.1524" layer="91"/>
-                                <wire x1="99.06" y1="17.78" x2="99.06" y2="109.22" width="0.1524" layer="91"/>
-                            </segment>
-                        </net>
-                        <net name="IR_GROUND" class="0">
-                            <segment>
-                                <pinref part="IR1" gate="A" pin="GND"/>
-                                <wire x1="83.82" y1="12.7" x2="101.6" y2="12.7" width="0.1524" layer="91"/>
-                                <wire x1="101.6" y1="12.7" x2="101.6" y2="5.08" width="0.1524" layer="91"/>
                             </segment>
                         </net>
                         <net name="MOTOR_V2" class="0">
@@ -1502,20 +1308,83 @@
                                 <label x="15.24" y="45.72" size="1.778" layer="95" rot="R180"/>
                             </segment>
                         </net>
-                        <net name="ENC_GND" class="0">
-                            <segment>
-                                <wire x1="27.94" y1="48.26" x2="27.94" y2="5.08" width="0.1524" layer="91"/>
-                                <pinref part="N20-ENCODER" gate="A" pin="2"/>
-                                <wire x1="27.94" y1="48.26" x2="20.32" y2="48.26" width="0.1524" layer="91"/>
-                                <label x="15.24" y="48.26" size="1.778" layer="95" rot="R180"/>
-                            </segment>
-                        </net>
                         <net name="MOTOR_V1" class="0">
                             <segment>
                                 <pinref part="DRV8833" gate="G$1" pin="OA2"/>
                                 <pinref part="N20-ENCODER" gate="A" pin="6"/>
                                 <wire x1="55.88" y1="58.42" x2="20.32" y2="58.42" width="0.1524" layer="91"/>
                                 <label x="15.24" y="58.42" size="1.778" layer="95" rot="R180"/>
+                            </segment>
+                        </net>
+                        <net name="GROUND" class="0">
+                            <segment>
+                                <wire x1="27.94" y1="48.26" x2="27.94" y2="0" width="0.1524" layer="91"/>
+                                <pinref part="N20-ENCODER" gate="A" pin="2"/>
+                                <wire x1="27.94" y1="48.26" x2="20.32" y2="48.26" width="0.1524" layer="91"/>
+                                <label x="15.24" y="48.26" size="1.778" layer="95" rot="R180"/>
+                                <pinref part="DRV8833" gate="G$1" pin="GND1"/>
+                                <wire x1="55.88" y1="78.74" x2="50.8" y2="78.74" width="0.1524" layer="91"/>
+                                <wire x1="50.8" y1="78.74" x2="50.8" y2="0" width="0.1524" layer="91"/>
+                                <pinref part="IR1" gate="A" pin="GND"/>
+                                <wire x1="83.82" y1="12.7" x2="101.6" y2="12.7" width="0.1524" layer="91"/>
+                                <wire x1="101.6" y1="12.7" x2="101.6" y2="0" width="0.1524" layer="91"/>
+                                <pinref part="DRV8833" gate="G$1" pin="GND2"/>
+                                <wire x1="86.36" y1="78.74" x2="93.98" y2="78.74" width="0.1524" layer="91"/>
+                                <wire x1="93.98" y1="78.74" x2="93.98" y2="0" width="0.1524" layer="91"/>
+                                <pinref part="POWER" gate="G$1" pin="3"/>
+                                <wire x1="190.5" y1="55.88" x2="170.18" y2="55.88" width="0.1524" layer="91"/>
+                                <wire x1="170.18" y1="55.88" x2="170.18" y2="5.08" width="0.1524" layer="91"/>
+                                <pinref part="M1" gate="G$1" pin="GND.2"/>
+                                <wire x1="152.4" y1="76.2" x2="167.64" y2="76.2" width="0.1524" layer="91"/>
+                                <wire x1="167.64" y1="76.2" x2="167.64" y2="5.08" width="0.1524" layer="91"/>
+                                <wire x1="167.64" y1="5.08" x2="167.64" y2="0" width="0.1524" layer="91"/>
+                                <wire x1="27.94" y1="0" x2="50.8" y2="0" width="0.1524" layer="91"/>
+                                <wire x1="50.8" y1="0" x2="93.98" y2="0" width="0.1524" layer="91"/>
+                                <wire x1="93.98" y1="0" x2="101.6" y2="0" width="0.1524" layer="91"/>
+                                <wire x1="101.6" y1="0" x2="167.64" y2="0" width="0.1524" layer="91"/>
+                                <wire x1="170.18" y1="5.08" x2="167.64" y2="5.08" width="0.1524" layer="91"/>
+                                <junction x="167.64" y="5.08"/>
+                                <junction x="93.98" y="0"/>
+                                <junction x="101.6" y="0"/>
+                                <junction x="50.8" y="0"/>
+                                <junction x="27.94" y="0"/>
+                            </segment>
+                        </net>
+                        <net name="5V" class="0">
+                            <segment>
+                                <pinref part="M1" gate="G$1" pin="5V"/>
+                                <wire x1="152.4" y1="71.12" x2="160.02" y2="71.12" width="0.1524" layer="91"/>
+                                <wire x1="160.02" y1="71.12" x2="160.02" y2="106.68" width="0.1524" layer="91"/>
+                                <wire x1="33.02" y1="106.68" x2="48.26" y2="106.68" width="0.1524" layer="91"/>
+                                <wire x1="48.26" y1="106.68" x2="96.52" y2="106.68" width="0.1524" layer="91"/>
+                                <wire x1="96.52" y1="106.68" x2="99.06" y2="106.68" width="0.1524" layer="91"/>
+                                <wire x1="99.06" y1="106.68" x2="160.02" y2="106.68" width="0.1524" layer="91"/>
+                                <wire x1="33.02" y1="55.88" x2="33.02" y2="106.68" width="0.1524" layer="91"/>
+                                <pinref part="N20-ENCODER" gate="A" pin="5"/>
+                                <wire x1="33.02" y1="55.88" x2="20.32" y2="55.88" width="0.1524" layer="91"/>
+                                <label x="15.24" y="55.88" size="1.778" layer="95" rot="R180"/>
+                                <pinref part="DRV8833" gate="G$1" pin="VIN"/>
+                                <wire x1="55.88" y1="73.66" x2="48.26" y2="73.66" width="0.1524" layer="91"/>
+                                <wire x1="48.26" y1="73.66" x2="48.26" y2="106.68" width="0.1524" layer="91"/>
+                                <junction x="48.26" y="106.68"/>
+                                <pinref part="DRV8833" gate="G$1" pin="VMM"/>
+                                <wire x1="86.36" y1="73.66" x2="96.52" y2="73.66" width="0.1524" layer="91"/>
+                                <wire x1="96.52" y1="73.66" x2="96.52" y2="106.68" width="0.1524" layer="91"/>
+                                <junction x="96.52" y="106.68"/>
+                                <pinref part="IR1" gate="A" pin="VO"/>
+                                <wire x1="83.82" y1="17.78" x2="99.06" y2="17.78" width="0.1524" layer="91"/>
+                                <wire x1="99.06" y1="17.78" x2="99.06" y2="106.68" width="0.1524" layer="91"/>
+                                <junction x="99.06" y="106.68"/>
+                                <junction x="33.02" y="106.68"/>
+                            </segment>
+                        </net>
+                        <net name="N$1" class="0">
+                            <segment>
+                                <pinref part="M1" gate="G$1" pin="D6"/>
+                                <wire x1="114.3" y1="58.42" x2="101.6" y2="58.42" width="0.1524" layer="91"/>
+                                <wire x1="101.6" y1="58.42" x2="101.6" y2="53.34" width="0.1524" layer="91"/>
+                                <pinref part="DRV8833" gate="G$1" pin="INA1"/>
+                                <wire x1="101.6" y1="53.34" x2="86.36" y2="53.34" width="0.1524" layer="91"/>
                             </segment>
                         </net>
                     </nets>
