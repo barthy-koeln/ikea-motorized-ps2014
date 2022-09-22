@@ -98,12 +98,7 @@ void updateEncoderData () {
   currentRotaryA = digitalRead(ROTARY_A);
 
   if (currentRotaryA == HIGH && lastRotaryA == LOW) {
-    int offset = getOffset(digitalRead(ROTARY_B) == currentRotaryA, currentPosition == POSITION_MIN);
-    Serial.print("offset = ");
-    Serial.print(offset);
-    Serial.println("");
-
-    currentPosition += offset;
+    currentPosition += getOffset(digitalRead(ROTARY_B) == currentRotaryA, currentPosition == POSITION_MIN);
   }
 
   lastRotaryA = currentRotaryA;
@@ -300,20 +295,4 @@ void loop () {
   updateIRData();
   chooseProgram();
   moveMotor();
-
-//  Serial.print("currentCommand: ");
-//  Serial.print(currentCommand, HEX);
-//  Serial.println("");
-
-//  Serial.println("current / target: ");
-//  Serial.print(currentPosition, DEC);
-//  Serial.print(" / ");
-//  Serial.print(targetPosition, DEC);
-//  Serial.println("");
-
-//  Serial.print("isAtTarget: ");
-//  Serial.print(isAtTarget ? "true" : "false");
-//  Serial.println("");
-//
-//  delay(10);
 }
