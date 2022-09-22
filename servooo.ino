@@ -2,6 +2,9 @@
 
 #include <IRremote.hpp>
 
+#define MOTOR_B_IN1 10
+#define MOTOR_B_IN2 11
+
 #define MOTOR_A_IN1 7
 #define MOTOR_A_IN2 8
 
@@ -32,18 +35,17 @@
 #define ROTARY_PPR 14
 #define ROTARY_GEAR_RATIO 150
 #define ROTARY_MAX_STOP (ROTARY_PPR * ROTARY_GEAR_RATIO)
+#define BOBBIN_MAX_ROTATIONS 2
 
-#define BOBBIN_MAX_ROTATIONS 3
-
-#define POSITION_MAX (BOBBIN_MAX_ROTATIONS * ROTARY_MAX_STOP)
 #define POSITION_MIN 0
+#define POSITION_MAX (BOBBIN_MAX_ROTATIONS * ROTARY_MAX_STOP)
 
 #define POSITION_DISTANCE (POSITION_MAX / 10) // buttons asterisk, 1-9, pound = 11 points, indexed 0-10
 
 #define TOLERANCE 5
 
-volatile bool lastRotaryA = false;
-volatile bool currentRotaryA = false;
+bool lastRotaryA = false;
+bool currentRotaryA = false;
 
 /**
  * Current running program
@@ -54,7 +56,7 @@ uint16_t currentCommand = NOOP;
  * Absolute value based on the amount of measurements per rotation
  * POSITION_MIN <= currentPosition <= POSITION_MAX
  */
-volatile int16_t currentPosition = POSITION_MIN;
+int16_t currentPosition = POSITION_MIN;
 
 /**
  * The motor will always aim to reach this target
@@ -62,17 +64,25 @@ volatile int16_t currentPosition = POSITION_MIN;
 int16_t targetPosition = POSITION_MIN;
 
 /**
+ * Distance between current and target
+ */
+int16_t distance = 0;
+
+/**
  * True if currentPosition == targetPosition.
  * Recalculated at the start of every loop iteration.
  * Changes will take effect in the next loop.
  */
-volatile bool isAtTarget = false;
+bool isAtTarget = false;
 
 void setup () {
   Serial.begin(9600);
 
   pinMode(MOTOR_A_IN1, OUTPUT);
   pinMode(MOTOR_A_IN2, OUTPUT);
+
+  pinMode(MOTOR_B_IN1, OUTPUT);
+  pinMode(MOTOR_B_IN2, OUTPUT);
 
   pinMode(ROTARY_A, INPUT);
   pinMode(ROTARY_B, INPUT);
@@ -82,23 +92,15 @@ void setup () {
   lastRotaryA = digitalRead(ROTARY_A);
 }
 
-int8_t getOffset (bool isGoingUp, bool isAtBottom) {
-  if (isGoingUp) {
-    return 1;
-  }
-
-  if (isAtBottom) {
-    return 0;
-  }
-
-  return -1;
-}
-
 void updateEncoderData () {
   currentRotaryA = digitalRead(ROTARY_A);
 
   if (currentRotaryA == HIGH && lastRotaryA == LOW) {
-    currentPosition += getOffset(digitalRead(ROTARY_B) == currentRotaryA, currentPosition == POSITION_MIN);
+    currentPosition += digitalRead(ROTARY_B) == currentRotaryA ? -1 : 1;
+    Serial.print("currentPosition: ");
+    Serial.print(currentPosition, DEC);
+    Serial.print(" / ");
+    Serial.println(targetPosition, DEC);
   }
 
   lastRotaryA = currentRotaryA;
@@ -107,6 +109,8 @@ void updateEncoderData () {
 void motorRoll (char in1, char in2) {
   digitalWrite(MOTOR_A_IN1, in1);
   digitalWrite(MOTOR_A_IN2, in2);
+  digitalWrite(MOTOR_B_IN1, in2);
+  digitalWrite(MOTOR_B_IN2, in1);
 }
 
 void motorRollDown () {
@@ -119,7 +123,7 @@ void motorRollDown () {
 }
 
 void motorRollUp () {
-  if (currentPosition > POSITION_MAX) {
+  if (currentPosition >= POSITION_MAX) {
     motorStop();
     return;
   }
@@ -130,6 +134,8 @@ void motorRollUp () {
 void motorStop () {
   digitalWrite(MOTOR_A_IN1, LOW);
   digitalWrite(MOTOR_A_IN2, LOW);
+  digitalWrite(MOTOR_B_IN1, LOW);
+  digitalWrite(MOTOR_B_IN2, LOW);
 }
 
 void moveMotor () {
@@ -285,7 +291,7 @@ void chooseProgram () {
 }
 
 bool updateTargetData () {
-  int16_t distance = targetPosition - currentPosition;
+  distance = targetPosition - currentPosition;
   isAtTarget = -TOLERANCE <= distance && distance <= TOLERANCE;
 }
 
