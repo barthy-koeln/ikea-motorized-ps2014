@@ -2,11 +2,11 @@
 
 #include <IRremote.hpp>
 
-#define MOTOR_A_IN1 2
-#define MOTOR_A_IN2 3
+#define MOTOR_A_IN1 7
+#define MOTOR_A_IN2 8
 
-#define ROTARY_A 7
-#define ROTARY_B 8
+#define ROTARY_A 2
+#define ROTARY_B 3
 
 #define IR_RECEIVE 9
 
@@ -29,9 +29,9 @@
 #define BUTTON_OK 0x1C
 #define NOOP 0x00
 
-#define ROTARY_POINTS_IN 14
+#define ROTARY_PPR 14
 #define ROTARY_GEAR_RATIO 150
-#define ROTARY_MAX_STOP (ROTARY_POINTS_IN * ROTARY_GEAR_RATIO)
+#define ROTARY_MAX_STOP (ROTARY_PPR * ROTARY_GEAR_RATIO)
 
 #define BOBBIN_MAX_ROTATIONS 3
 
@@ -40,26 +40,10 @@
 
 #define POSITION_DISTANCE (POSITION_MAX / 10) // buttons asterisk, 1-9, pound = 11 points, indexed 0-10
 
-/**
- * Current position of rotary encoder
- * 0 <= rotaryCounter <= ROTARY_MAX_STOP
- */
-uint8_t rotaryCounter = 0;
+#define TOLERANCE 5
 
-/**
- * Current rotary encoder output B
- */
-uint8_t rotaryOutB = 0;
-
-/**
- * Current rotary encoder output A
- */
-uint8_t currentRotaryOutA = 0;
-
-/**
- * Previous Current rotary encoder output A
- */
-uint8_t lastRotaryOutA = 0;
+volatile bool lastRotaryA = false;
+volatile bool currentRotaryA = false;
 
 /**
  * Current running program
@@ -70,24 +54,19 @@ uint16_t currentCommand = NOOP;
  * Absolute value based on the amount of measurements per rotation
  * POSITION_MIN <= currentPosition <= POSITION_MAX
  */
-float currentPosition = POSITION_MIN;
+volatile int16_t currentPosition = POSITION_MIN;
 
 /**
  * The motor will always aim to reach this target
  */
-float currentPositionTarget = POSITION_MIN;
+int16_t targetPosition = POSITION_MIN;
 
 /**
- * True if the motor should go upwards.
- */
-bool currentlyGoingUp = false;
-
-/**
- * True if currentPosition == currentPositionTarget.
+ * True if currentPosition == targetPosition.
  * Recalculated at the start of every loop iteration.
  * Changes will take effect in the next loop.
  */
-bool isAtTarget = false;
+volatile bool isAtTarget = false;
 
 void setup () {
   Serial.begin(9600);
@@ -98,51 +77,36 @@ void setup () {
   pinMode(ROTARY_A, INPUT);
   pinMode(ROTARY_B, INPUT);
 
-  pinMode(ROTARY_B, INPUT);
-
   IrReceiver.begin(IR_RECEIVE, true);
 
-  lastRotaryOutA = digitalRead(ROTARY_A);
+  lastRotaryA = digitalRead(ROTARY_A);
 }
 
-bool updateRotaryData () {
-  currentRotaryOutA = digitalRead(ROTARY_A);
-  rotaryOutB = digitalRead(ROTARY_B);
+int8_t getOffset (bool isGoingUp, bool isAtBottom) {
+  if (isGoingUp) {
+    return 1;
+  }
 
-  bool clickValueChanged = currentRotaryOutA != lastRotaryOutA;
-  bool clickValueHigh = currentRotaryOutA == 1;
-
-  lastRotaryOutA = currentRotaryOutA;
-
-  return clickValueChanged && clickValueHigh;
-}
-
-char getRotaryDelta () {
-  if (!updateRotaryData()) {
+  if (isAtBottom) {
     return 0;
   }
 
-  if (rotaryOutB != currentRotaryOutA) {
-    rotaryCounter--;
-
-    if (rotaryCounter < 0) {
-      rotaryCounter = ROTARY_MAX_STOP;
-    }
-
-    return -1;
-  }
-
-  rotaryCounter++;
-
-  if (rotaryCounter > ROTARY_MAX_STOP) {
-    rotaryCounter = 0;
-  }
-
-  return +1;
+  return -1;
 }
 
-bool shouldHandleRotary () {
-  return currentRotaryOutA == 1;
+void updateEncoderData () {
+  currentRotaryA = digitalRead(ROTARY_A);
+
+  if (currentRotaryA == HIGH && lastRotaryA == LOW) {
+    int offset = getOffset(digitalRead(ROTARY_B) == currentRotaryA, currentPosition == POSITION_MIN);
+    Serial.print("offset = ");
+    Serial.print(offset);
+    Serial.println("");
+
+    currentPosition += offset;
+  }
+
+  lastRotaryA = currentRotaryA;
 }
 
 void motorRoll (char in1, char in2) {
@@ -152,6 +116,7 @@ void motorRoll (char in1, char in2) {
 
 void motorRollDown () {
   if (currentPosition <= POSITION_MIN) {
+    motorStop();
     return;
   }
 
@@ -159,7 +124,8 @@ void motorRollDown () {
 }
 
 void motorRollUp () {
-  if (currentPosition >= POSITION_MAX) {
+  if (currentPosition > POSITION_MAX) {
+    motorStop();
     return;
   }
 
@@ -177,12 +143,14 @@ void moveMotor () {
     return;
   }
 
-  if (currentlyGoingUp) {
+  if (currentPosition < targetPosition) {
     motorRollUp();
     return;
   }
 
-  motorRollDown();
+  if (currentPosition > POSITION_MIN) {
+    motorRollDown();
+  }
 }
 
 bool isKnownCommand (uint16_t command) {
@@ -220,55 +188,43 @@ void updateIRData () {
   }
 }
 
-void updateValues () {
-  currentPosition += getRotaryDelta();
-  isAtTarget = currentPosition == currentPositionTarget;
-}
-
 void programGoToTop () {
-  currentPositionTarget = POSITION_MAX;
-  currentlyGoingUp = true;
+  targetPosition = POSITION_MAX;
 }
 
 void programGoToBottom () {
-  currentPositionTarget = POSITION_MIN;
-  currentlyGoingUp = false;
+  targetPosition = POSITION_MIN;
 }
 
 void cycleTopToBottom () {
   if (isAtTarget) {
-    currentlyGoingUp = !currentlyGoingUp;
+    targetPosition = targetPosition < TOLERANCE ? POSITION_MAX : POSITION_MIN;
   }
-
-  currentPositionTarget = currentlyGoingUp ? POSITION_MAX : POSITION_MIN;
 }
 
 void stopAll () {
   isAtTarget = true;
-  currentPositionTarget = currentPosition;
+  targetPosition = currentPosition;
 }
 
 void goToPosition (uint8_t position) {
-  currentPositionTarget = (int) position * POSITION_DISTANCE;
-  currentlyGoingUp = currentPositionTarget > currentPosition;
+  targetPosition = position * POSITION_DISTANCE;
 }
 
 void decrementPosition (uint8_t factor) {
-  if(!isAtTarget){
+  if (!isAtTarget) {
     return;
   }
 
-  currentPositionTarget = max(POSITION_MIN, currentPosition - (factor * POSITION_DISTANCE));
-  currentlyGoingUp = false;
+  targetPosition = max(POSITION_MIN, currentPosition - (factor * POSITION_DISTANCE));
 }
 
 void incrementPosition (uint8_t factor) {
-  if(!isAtTarget){
+  if (!isAtTarget) {
     return;
   }
 
-  currentPositionTarget = min(POSITION_MAX, currentPosition + (factor * POSITION_DISTANCE));
-  currentlyGoingUp = true;
+  targetPosition = min(POSITION_MAX, currentPosition + (factor * POSITION_DISTANCE));
 }
 
 void chooseProgram () {
@@ -333,30 +289,31 @@ void chooseProgram () {
   }
 }
 
-void loop () {
-  updateIRData();
-  updateValues();
-  chooseProgram();
+bool updateTargetData () {
+  int16_t distance = targetPosition - currentPosition;
+  isAtTarget = -TOLERANCE <= distance && distance <= TOLERANCE;
+}
 
+void loop () {
+  updateEncoderData();
+  updateTargetData();
+  updateIRData();
+  chooseProgram();
   moveMotor();
 
-  Serial.print("currentCommand: ");
-  Serial.print(currentCommand, HEX);
-  Serial.println("");
-  Serial.print("current/target/max: ");
-  Serial.print(currentPosition, DEC);
-  Serial.print("/");
-  Serial.print(currentPositionTarget, DEC);
-  Serial.print("/");
-  Serial.print(POSITION_MAX, DEC);
-  Serial.println("");
+//  Serial.print("currentCommand: ");
+//  Serial.print(currentCommand, HEX);
+//  Serial.println("");
 
-  Serial.print("isAtTarget: ");
-  Serial.print(isAtTarget ? "true" : "false");
-  Serial.println("");
-  Serial.print("currentlyGoingUp: ");
-  Serial.print(currentlyGoingUp ? "true" : "false");
-  Serial.println("");
+//  Serial.println("current / target: ");
+//  Serial.print(currentPosition, DEC);
+//  Serial.print(" / ");
+//  Serial.print(targetPosition, DEC);
+//  Serial.println("");
 
-  delay(1);
+//  Serial.print("isAtTarget: ");
+//  Serial.print(isAtTarget ? "true" : "false");
+//  Serial.println("");
+//
+//  delay(10);
 }
